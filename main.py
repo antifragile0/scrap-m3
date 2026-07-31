@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 # Konfigurasi: Masukkan semua URL m3u sumber Anda
 SOURCE_URLS = [
     "https://raw.githubusercontent.com/apistech/project/c6e25cbd1ce74b8283930227a742149ddf0d73a0/IndihomeTV.m3u",
+	"https://raw.githubusercontent.com/mimipipi22/live/refs/heads/main/lelipur",
     "https://raw.githubusercontent.com/dhasap/dhanytv/main/dhanytv.m3u",
     "https://raw.githubusercontent.com/anomnim/anomnim.github.io/main/pl/shareext.m3u"
 ]
