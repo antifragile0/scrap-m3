@@ -1,0 +1,41 @@
+name: Auto Update M3U Playlist
+
+on:
+  schedule:
+    # Berjalan setiap hari pada jam 00:00 UTC (jam 07:00 WIB)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Mengizinkan Anda untuk menjalankan trigger secara manual dari tab Actions
+
+permissions:
+  contents: write
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Python Script
+      run: python main.py
+
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add filtered_playlist.m3u
+        
+        # Hanya commit jika ada perubahan pada file
+        git commit -m "Auto-update: Memperbarui daftar channel" || echo "Tidak ada perubahan pada file"
+        git push
