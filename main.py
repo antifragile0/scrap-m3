@@ -27,47 +27,67 @@ TARGET_CHANNELS = [
 OUTPUT_FILE = "filtered_playlist.m3u"
 
 def filter_m3u():
-    # Header wajib untuk file m3u (hanya ditulis satu kali di bagian paling atas)
+    # Header wajib untuk file m3u
     filtered_lines = ["#EXTM3U"] 
     total_added_count = 0
 
-    # Melakukan pengulangan untuk setiap URL di dalam SOURCE_URLS
     for url in SOURCE_URLS:
         print(f"\nMengunduh playlist dari: {url}")
         try:
-            # Menambahkan timeout 15 detik agar skrip tidak hang jika server sumber mati
             response = requests.get(url, timeout=15)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print(f"[ERROR] Gagal mengunduh dari {url}: {e}")
-            continue # Lanjut ke URL berikutnya jika URL ini gagal
+            continue
 
         lines = response.text.splitlines()
-        keep_next_line = False
+        
+        is_matching_channel = False
+        current_channel_block = []
         added_count_per_url = 0
 
         for line in lines:
-            if line.startswith("#EXTINF"):
-                # Mengecek apakah ada nama channel dari TARGET_CHANNELS di baris ini
-                if any(channel.lower() in line.lower() for channel in TARGET_CHANNELS):
-                    filtered_lines.append(line)
-                    keep_next_line = True
+            line_stripped = line.strip()
+            
+            # Abaikan baris kosong
+            if not line_stripped:
+                continue
+                
+            # Jika menemukan baris awal channel (#EXTINF)
+            if line_stripped.startswith("#EXTINF"):
+                # Cek apakah nama channel sesuai dengan target
+                if any(channel.lower() in line_stripped.lower() for channel in TARGET_CHANNELS):
+                    is_matching_channel = True
+                    current_channel_block = [line_stripped] # Mulai menyimpan blok baru
+                else:
+                    is_matching_channel = False
+                    
+            # Jika sedang berada di blok channel yang lolos filter
+            elif is_matching_channel:
+                if line_stripped.startswith("#"):
+                    # Menyimpan baris opsi tambahan seperti #EXTVLCOPT, #EXTGRP, dll
+                    current_channel_block.append(line_stripped)
+                else:
+                    # Ini adalah baris URL streaming (tidak diawali '#')
+                    current_channel_block.append(line_stripped)
+                    
+                    # Masukkan seluruh blok channel ke dalam list akhir
+                    filtered_lines.extend(current_channel_block)
+                    
+                    # Reset state untuk mencari channel berikutnya
+                    is_matching_channel = False
+                    current_channel_block = []
+                    
                     added_count_per_url += 1
                     total_added_count += 1
-                else:
-                    keep_next_line = False
-            # Menyimpan baris URL streaming
-            elif keep_next_line and line.strip() and not line.startswith("#"):
-                filtered_lines.append(line)
-                keep_next_line = False
         
         print(f"Berhasil menemukan {added_count_per_url} channel dari sumber ini.")
 
-    # Menyimpan semua hasil gabungan ke file baru
+    # Menyimpan hasil ke file
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write("\n".join(filtered_lines))
     
-    print(f"\nSelesai! Berhasil memfilter total {total_added_count} channel dari {len(SOURCE_URLS)} sumber.")
+    print(f"\nSelesai! Berhasil memfilter total {total_added_count} channel.")
 
 if __name__ == "__main__":
     filter_m3u()
