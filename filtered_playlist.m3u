@@ -23,6 +23,30 @@ https://op-flashcon-digdayahd-1.dens.tv/h/h10/index.m3u8
 #EXTINF:-1 tvg-id="TVRI.id@SD" group-title="Nasional" tvg-logo="https://raw.githubusercontent.com/apistech/project/refs/heads/main/logo/image_ch_tvri.png",TVRI
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0
 https://op-flashcon-digdayasd-1.dens.tv/s/s11/index.m3u8
+#EXTINF:-1 tvg-id="MOJI.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/moji.jpg" group-title="INDONESIA TV",MOJI (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h207/index.m3u8
+#EXTINF:-1 tvg-id="RTV.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/rtv.jpg" group-title="INDONESIA TV",RTV (DENS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h10/index.m3u8?app_type=web&userid=lite&chname=RTV
+#EXTINF:-1 tvg-id="Metro.TV.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/metrotv.jpg" group-title="INDONESIA TV",METRO TV (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h12/index.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/btv.jpg" group-title="INDONESIA TV",BTV (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h210/index.m3u8?app_type=web&userid=lite&chname=BTV
+#EXTINF:-1 tvg-id="BeritaSatu.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/beritasatu.jpg" group-title="INDONESIA TV",BERITASATU (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h209/index.m3u8
+#EXTINF:-1 tvg-id="TVRI.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/tvri.jpg" group-title="INDONESIA TV",TVRI NASIONAL (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h17/index.m3u8?app_type=web&userid=lite&chname=TVRI
+#EXTINF:-1 tvg-id="MDTV.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/mdtv.jpg" group-title="INDONESIA TV",MDTV (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h223/index.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/magna.jpg" group-title="INDONESIA TV",MAGNA (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h24/index.m3u8?app_type=web&userid=lite&chname=Magna_Channel
+#EXTINF:-1 tvg-id="Jaktv.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/jaktv.jpg" group-title="INDONESIA TV",JAKTV (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h218/index.m3u8?app_type=web&userid=lite&chname=Jak_tv
+#EXTINF:-1 tvg-id="Nusantara.TV.id" tvg-name="Nusantara TV" tvg-logo="https://mimipipi22.github.io/logo/nasional/nusantaratv.jpg" group-title="INDONESIA TV",NUSANTARA TV (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h37/index.m3u8?app_type=web&userid=lite&chname=Nusantara_TV_NTV-
+#EXTINF:-1 tvg-id="ElshintaTV.my.id" tvg-name="ElshintaTV" tvg-logo="https://mimipipi22.github.io/logo/nasional/elshintatv.jpg" group-title="INDONESIA TV",ELSHINTA TV (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h228/index.m3u8?app_type=web&userid=lite&chname=Elshinta_TV
+#EXTINF:-1 tvg-id="" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/jowotv.jpg" group-title="INDONESIA TV",JOWO TV (DNS)
+https://op-flashcon-digdayahd-1.dens.tv/h/h208/index.m3u8
 #EXTINF:-1 tvg-id="MDTV.id" group-title="Indonesia Channels" tvg-logo="https://thumbor.prod.vidiocdn.com/LCZH_yEBnTYEQzrU1pB7w7ev-Bw=/230x230/filters:quality(70)/vidio-web-prod-livestreaming/uploads/livestreaming/square_image/875/325605.png",MDTV
 #EXTVLCOPT:http-referrer=https://www.dens.tv/
 #EXTVLCOPT:http-origin=https://www.dens.tv
