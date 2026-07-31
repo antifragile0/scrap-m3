@@ -1,31 +1,30 @@
 import requests
 from urllib.parse import urlparse
 
-# Konfigurasi: Masukkan semua URL m3u sumber Anda ke dalam list ini
+# Konfigurasi: Masukkan semua URL m3u sumber Anda
 SOURCE_URLS = [
     "https://raw.githubusercontent.com/apistech/project/c6e25cbd1ce74b8283930227a742149ddf0d73a0/IndihomeTV.m3u",
     "https://raw.githubusercontent.com/dhasap/dhanytv/main/dhanytv.m3u",
     "https://raw.githubusercontent.com/anomnim/anomnim.github.io/main/pl/shareext.m3u"
 ]
 
-# Kosongkan list ini [] jika Anda ingin mengambil SEMUA channel dari dens.tv.
-# Atau isi nama channel jika Anda hanya ingin channel dens.tv tertentu (misal: ["Berita Satu", "HBO"])
+# 1. Filter Nama Channel (Kosongkan [] jika ingin semua nama channel)
 TARGET_CHANNELS = [] 
+
+# 2. Filter Kategori/Atribut (Hanya mengambil baris #EXTINF yang mengandung kata-kata ini)
+TARGET_GROUPS = ["nasional", "indonesia"]
 
 OUTPUT_FILE = "filtered_playlist.m3u"
 
 def check_link_active(url, user_agent=None):
     """Fungsi untuk mengecek apakah link streaming aktif (HTTP 200 OK)"""
     headers = {}
-    # Gunakan User-Agent asli dari baris EXTVLCOPT jika tersedia
     if user_agent:
         headers['User-Agent'] = user_agent
     else:
-        # Fallback User-Agent jika tidak ada di file m3u
         headers['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
     
     try:
-        # Menggunakan stream=True agar Python hanya memuat header URL, bukan mengunduh video stream-nya
         with requests.get(url, headers=headers, stream=True, timeout=10) as response:
             return response.status_code == 200
     except requests.exceptions.RequestException:
@@ -58,27 +57,39 @@ def filter_m3u():
                 
             # Saat menemukan awal channel (#EXTINF)
             if line_stripped.startswith("#EXTINF"):
-                # Filter Nama Channel (jika TARGET_CHANNELS tidak kosong)
-                if TARGET_CHANNELS:
-                    if any(channel.lower() in line_stripped.lower() for channel in TARGET_CHANNELS):
-                        is_collecting = True
-                    else:
-                        is_collecting = False
-                else:
-                    # Jika TARGET_CHANNELS kosong, kita tampung dulu semuanya, nanti difilter dari domain
-                    is_collecting = True
+                line_lower = line_stripped.lower()
                 
-                if is_collecting:
+                # Cek Filter Grup/Atribut (Apakah ada kata "nasional" atau "indonesia")
+                matches_group = False
+                if TARGET_GROUPS:
+                    if any(group in line_lower for group in TARGET_GROUPS):
+                        matches_group = True
+                else:
+                    matches_group = True # Lolos jika list kosong
+                    
+                # Cek Filter Nama Channel (Opsional)
+                matches_channel = False
+                if TARGET_CHANNELS:
+                    if any(channel.lower() in line_lower for channel in TARGET_CHANNELS):
+                        matches_channel = True
+                else:
+                    matches_channel = True # Lolos jika list kosong
+                
+                # Channel hanya akan diproses jika memenuhi KEDUA filter di atas
+                if matches_group and matches_channel:
+                    is_collecting = True
                     current_channel_block = [line_stripped]
                     current_user_agent = None
+                else:
+                    is_collecting = False
                     
             # Jika baris ini adalah bagian dari channel yang sedang ditampung
             elif is_collecting:
                 if line_stripped.startswith("#"):
                     current_channel_block.append(line_stripped)
-                    # Mencari dan menyimpan User-Agent jika ada di baris ini
-                    if "http-user-agent=" in line_stripped.lower():
-                        parts = line_stripped.split("http-user-agent=", 1)
+                    # Mencari dan menyimpan User-Agent jika ada
+                    if "http-user-agent=" in line_lower:
+                        parts = line_lower.split("http-user-agent=", 1)
                         if len(parts) > 1:
                             current_user_agent = parts[1].strip()
                 else:
@@ -90,7 +101,7 @@ def filter_m3u():
                     is_dens_tv = (parsed_url.scheme == "https" and parsed_url.netloc.endswith(".dens.tv"))
 
                     if is_dens_tv:
-                        print(f"Menguji link: {parsed_url.netloc}...")
+                        print(f"Mengecek link: {parsed_url.netloc}...")
                         
                         # 2. Validasi Link Aktif
                         if check_link_active(stream_url, current_user_agent):
@@ -106,12 +117,12 @@ def filter_m3u():
                     current_channel_block = []
                     current_user_agent = None
 
-    # Menyimpan hasil akhir ke file m3u
+    # Menyimpan hasil akhir
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write("\n".join(filtered_lines))
     
     print(f"\n======================================")
-    print(f"SELESAI! Berhasil menyimpan {total_added_count} channel dens.tv yang aktif.")
+    print(f"SELESAI! Berhasil menyimpan {total_added_count} channel.")
     print(f"======================================")
 
 if __name__ == "__main__":
