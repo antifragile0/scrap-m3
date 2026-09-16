@@ -175,7 +175,3 @@ https://op-flashcon-digdayahd-1.dens.tv/h/h24/01.m3u8
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=hls
 https://op-flashcon-digdayasd-1.dens.tv/h/h215/S1/mnf.m3u8
-#EXTINF:-1 tvg-id="MOJI.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/moji.jpg" group-title="SHAREEXT@ LIVE TV",MOJI (DNS)
-https://op-flashcon-digdayahd-1.dens.tv/h/h207/index.m3u8
-#EXTINF:-1 tvg-id="TVRI.id" tvg-name="" tvg-logo="https://mimipipi22.github.io/logo/nasional/tvri.jpg" group-title="SHAREEXT@ LIVE TV",TVRI NASIONAL (DNS)
-https://op-flashcon-digdayahd-1.dens.tv/h/h17/index.m3u8?app_type=web&userid=lite&chname=TVRI
